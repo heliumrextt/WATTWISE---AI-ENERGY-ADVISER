@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>WattWise – AI Energy Advisor</title>
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+<header class="hero">
+<div class="bolt" aria-hidden="true">⚡</div>
+<h1>WattWise</h1>
+<p class="tag">Know where your electricity goes. Cut the bill. Cut the carbon.</p>
+<span class="demo">Demo data</span>
+</header>
+
+<div class="meter" aria-live="polite">
+<div class="dial d1"><b id="mUnits">0</b><span>units per month</span></div>
+<div class="dial d2"><b id="mCost">0</b><span>estimated monthly bill</span></div>
+<div class="dial d3"><b id="mSave">0</b><span>you could save per month</span></div>
+<div class="dial d4"><b id="mCo2">0</b><span>kg CO₂ per month (approx.)</span></div>
+</div>
+
+<div class="tabs" role="tablist">
+<button role="tab" aria-selected="true" data-t="a">🔌 Appliances</button>
+<button role="tab" aria-selected="false" data-t="f">📈 Forecast</button>
+<button role="tab" aria-selected="false" data-t="s">💡 Advice</button>
+<button role="tab" aria-selected="false" data-t="m">ℹ️ How it works</button>
+</div>
+
+<section id="a" class="card">
+<h2>Where does the electricity go?</h2>
+<p class="sub">Edit the demo values with your own appliances. Units = watts × hours × 30 ÷ 1000.</p>
+<div class="wrap"><table><thead><tr><th>Appliance</th><th>Watts</th><th>Hours/day</th><th>Qty</th></tr></thead><tbody id="rows"></tbody></table></div>
+<p><label>Tariff (₹ per unit) <input id="tariff" type="number" step="0.5" value="7"></label></p>
+<h2>Biggest users first</h2>
+<div id="bars"></div>
+</section>
+
+<section id="f" class="card" hidden>
+<h2>Forecast from past bills</h2>
+<p class="sub">Enter 12 months of units (Jan to Dec, separated by commas). The model fits a trend plus a yearly seasonal pattern by least squares and predicts the next 3 months.</p>
+<textarea id="bills" aria-label="Monthly units"></textarea>
+<div id="chart"></div>
+<p id="fnote"></p>
+</section>
+
+<section id="s" class="card" hidden>
+<div class="lang" role="group" aria-label="Language"><button id="en" aria-pressed="true">English</button><button id="hi" aria-pressed="false">हिंदी</button></div>
+<h2 id="sTitle">Your personalised tips</h2>
+<div id="tips"></div>
+<div class="whatif">
+<label for="acT" id="wiLabel">Raise AC temperature by <b id="acV">4</b>°C</label>
+<input id="acT" type="range" min="0" max="6" value="4">
+<div id="whatif"></div>
+</div>
+<small id="sNote"></small>
+</section>
+
+<section id="m" class="card" hidden>
+<h2>How WattWise works</h2>
+<p><b>1. Input.</b> Appliance list and last 12 months of bills.</p>
+<p><b>2. Analyse.</b> Calculates units and cost per appliance and ranks them.</p>
+<p><b>3. Forecast.</b> Linear regression with seasonal terms (trend + sin/cos of month) predicts upcoming units.</p>
+<p><b>4. Advise.</b> Rules turn the numbers into plain-language tips in English or Hindi. In the full project an LLM can phrase these tips from the same numbers.</p>
+<p><small>All values are simulated demo data based on typical Indian household appliances. CO₂ uses an approximate grid factor of 0.71 kg per unit. Replace the demo data with real readings to use the tool.</small></p>
+</section>
+</main>
+<script src="script.js"></script>
+</body>
+</html>
